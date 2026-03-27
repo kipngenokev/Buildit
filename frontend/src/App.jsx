@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { fallbackProducts } from './data/fallbackProducts';
 
 const categoryLabels = {
@@ -21,6 +21,17 @@ function formatPrice(price) {
 function App() {
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState('loading');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const dialogRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const triggerButtonRef = useRef(null);
+
+  const closeDetails = () => {
+    setSelectedProduct(null);
+    if (triggerButtonRef.current) {
+      triggerButtonRef.current.focus();
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -54,6 +65,66 @@ function App() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!selectedProduct) {
+      return undefined;
+    }
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeDetails();
+        return;
+      }
+
+      if (event.key === 'Tab') {
+        if (!dialogRef.current) {
+          return;
+        }
+
+        const focusableElements = Array.from(
+          dialogRef.current.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((element) => !element.hasAttribute('disabled'));
+
+        if (focusableElements.length === 0) {
+          event.preventDefault();
+          dialogRef.current.focus();
+          return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement;
+
+        if (event.shiftKey && activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        } else if (!event.shiftKey && activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    if (!selectedProduct) {
+      return;
+    }
+
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    } else if (dialogRef.current) {
+      dialogRef.current.focus();
+    }
+  }, [selectedProduct]);
 
   const groupedProducts = useMemo(() => {
     return products.reduce((acc, product) => {
@@ -107,6 +178,16 @@ function App() {
                           <span>{product.material}</span>
                         </div>
                         <p className="price">{formatPrice(product.price)}</p>
+                        <button
+                          type="button"
+                          className="details-button"
+                          onClick={(event) => {
+                            triggerButtonRef.current = event.currentTarget;
+                            setSelectedProduct(product);
+                          }}
+                        >
+                          View details
+                        </button>
                       </div>
                     </article>
                   ))}
@@ -116,6 +197,43 @@ function App() {
           })}
         </main>
       )}
+
+      {selectedProduct ? (
+        <section
+          className="product-detail-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedProduct.name} details`}
+          tabIndex={-1}
+          ref={dialogRef}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              closeDetails();
+            }
+          }}
+        >
+          <article className="product-detail-card">
+            <button
+              type="button"
+              className="close-button"
+              aria-label="Close details"
+              ref={closeButtonRef}
+              onClick={closeDetails}
+            >
+              ×
+            </button>
+            <img src={selectedProduct.imageUrl} alt={selectedProduct.name} loading="lazy" />
+            <h2>{selectedProduct.name}</h2>
+            <p className="summary">{selectedProduct.shortDescription}</p>
+            <p className="description">{selectedProduct.detailedDescription}</p>
+            <div className="meta">
+              <span>{selectedProduct.designStyle} design</span>
+              <span>{selectedProduct.material}</span>
+            </div>
+            <p className="price">{formatPrice(selectedProduct.price)}</p>
+          </article>
+        </section>
+      ) : null}
     </div>
   );
 }
