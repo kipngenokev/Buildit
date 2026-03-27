@@ -124,6 +124,65 @@ body {
   color: #113d78;
 }
 
+.details-button {
+  border: 0;
+  border-radius: 10px;
+  background: #1f66d4;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background: #1652ab;
+}
+
+.product-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 34, 58, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.product-detail-card {
+  background: #ffffff;
+  border-radius: 18px;
+  width: min(640px, 100%);
+  padding: 1rem;
+  box-shadow: 0 20px 40px rgba(9, 36, 79, 0.3);
+  position: relative;
+}
+
+.product-detail-card img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.product-detail-card h2 {
+  margin: 0.9rem 0 0.5rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(16, 34, 58, 0.12);
+  color: #10223a;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
 @media (max-width: 768px) {
   .page {
     padding-top: 2rem;
