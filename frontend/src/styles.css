@@ -1,0 +1,135 @@
+:root {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  background: #f4f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #e4ebf6, #f7f9fc 32%, #f4f7fb 70%);
+  color: #10223a;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.hero {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 2.5rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1f66d4;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.hero h1 {
+  margin: 0.5rem 0;
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  line-height: 1.16;
+}
+
+.hero p {
+  color: #355278;
+}
+
+.loading {
+  text-align: center;
+  font-weight: 600;
+}
+
+.catalog-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(9, 36, 79, 0.09);
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  height: 175px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.card-content h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.summary {
+  margin: 0;
+  font-weight: 600;
+  color: #1f4e8c;
+}
+
+.description {
+  margin: 0;
+  color: #3f5776;
+  font-size: 0.93rem;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  color: #5c738f;
+  font-size: 0.82rem;
+}
+
+.price {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #113d78;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding-top: 2rem;
+  }
+
+  .card img {
+    height: 160px;
+  }
+}
