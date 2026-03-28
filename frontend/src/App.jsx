@@ -209,7 +209,7 @@ function App() {
       }
 
       const data = await response.json();
-      const email = credentials.email.trim().toLowerCase();
+      const email = credentials.email;
       setAuthState({
         token: data.token,
         role: data.role,

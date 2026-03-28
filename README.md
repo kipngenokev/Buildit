@@ -22,9 +22,10 @@ Buildit is a fullstack modular-monolith MVP online store for premium hardware pr
    - `DB_USERNAME` (default: `root`)
    - `DB_PASSWORD` (default: `password`)
    - `PORT` (default: `8080`)
-   - `JWT_SECRET` (default: `buildit-super-secret-jwt-signing-key-2026`)
+   - `JWT_SECRET` (**required**, must be at least 32 characters)
    - `JWT_TTL_SECONDS` (default: `3600`)
    - `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` (required only when enabling Google OAuth2 login)
+   - `BUILDIT_ADMIN_EMAIL` and `BUILDIT_ADMIN_PASSWORD` (optional admin seed account, for local/dev setups)
 
 Run backend:
 
@@ -100,10 +101,11 @@ npm test
   - only `ROLE_ADMIN` can access `/api/admin/**`
 - Passwords are hashed with BCrypt before persistence.
 
-## Default seeded user
+## Optional seeded admin user
 
-An admin user is seeded automatically on startup:
+To seed an admin user in local/dev, set:
 
-- Email: `admin@buildit.local`
-- Password: `AdminPass123!`
-- Role: `ROLE_ADMIN`
+- `BUILDIT_ADMIN_EMAIL`
+- `BUILDIT_ADMIN_PASSWORD`
+
+If not set, no default admin account is created.

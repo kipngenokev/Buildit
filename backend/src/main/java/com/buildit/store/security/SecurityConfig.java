@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.util.StringUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +35,10 @@ public class SecurityConfig {
 
     private final String jwtSecret;
 
-    public SecurityConfig(@Value("${security.jwt.secret:replace-with-a-strong-jwt-secret-key}") String jwtSecret) {
+    public SecurityConfig(@Value("${security.jwt.secret}") String jwtSecret) {
+        if (!StringUtils.hasText(jwtSecret) || jwtSecret.length() < 32) {
+            throw new IllegalArgumentException("security.jwt.secret must be set and at least 32 characters long");
+        }
         this.jwtSecret = jwtSecret;
     }
 
