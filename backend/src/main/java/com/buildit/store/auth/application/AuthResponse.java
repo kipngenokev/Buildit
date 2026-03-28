@@ -1,0 +1,9 @@
+package com.buildit.store.auth.application;
+
+public record AuthResponse(
+        String token,
+        String tokenType,
+        long expiresIn,
+        String role
+) {
+}
